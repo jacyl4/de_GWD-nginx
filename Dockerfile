@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 LABEL maintainer "JacyL4 - jacyl4@gmail.com"
 
-ENV NGINX_VERSION 1.19.2
+ENV NGINX_VERSION 1.19.1
 
 ENV OPENSSL_VERSION 1.1.1g
 

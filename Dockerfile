@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 LABEL maintainer "JacyL4 - jacyl4@gmail.com"
 
-ENV NGINX_VERSION 1.19.1
+ENV NGINX_VERSION 1.19.3
 
 ENV OPENSSL_VERSION 1.1.1g
 
@@ -40,6 +40,7 @@ RUN set -x \
 	&& sed -i 's/CFLAGS="$CFLAGS -g"/#CFLAGS="$CFLAGS -g"/' /usr/src/nginx-$NGINX_VERSION/auto/cc/gcc \
 	&& cd /usr/src/nginx-$NGINX_VERSION \
 	&& curl https://raw.githubusercontent.com/kn007/patch/master/nginx.patch | patch -p1 \
+	&& curl https://raw.githubusercontent.com/kn007/patch/master/nginx_with_quic.patch | patch -p1 \
 	&& curl https://raw.githubusercontent.com/kn007/patch/master/use_openssl_md5_sha1.patch | patch -p1 \
 	&& ./configure \
 		--prefix=/etc/nginx \

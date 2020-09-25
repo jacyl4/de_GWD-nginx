@@ -92,6 +92,7 @@ RUN set -x \
 		--with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie' \
 		--add-module=/tmp/src/ngx_brotli \
 	&& make && make install \
+	&& cd ~ \
 	&& rustup self uninstall -y \
 	&& rm -rf /tmp/* \
 	&& apt-get remove --purge --auto-remove -y autoconf autotools-dev binutils binutils-common binutils-x86-64-linux-gnu build-essential bzip2 ca-certificates cmake cpp cpp-8 \
@@ -99,7 +100,7 @@ RUN set -x \
 		libgdbm-compat4 libgdbm6 libgomp1 libgssapi-krb5-2 libisl19 libitm1 libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap-2.4-2 libldap-common liblsan0 libmagic-mgc \
 		libmagic1 libmpc3 libmpfr6 libmpx2 libnghttp2-14 libpcre2-8-0 libperl5.28 libpsl5 libquadmath0 librtmp1 libsasl2-2 libsasl2-modules-db libsigsegv2 libssh2-1 libstdc++-8-dev libtool libtsan0 libubsan1 \
 		m4 make openssl patch perl perl-modules-5.28 unzip wget xz-utils \
-	&& apt-get clean all \
+	&& apt-get autoremove -y && apt-get clean all -y \
 	&& rm -rf /var/lib/apt/lists/*
 
 STOPSIGNAL SIGTERM

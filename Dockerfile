@@ -11,6 +11,8 @@ RUN set -x \
 	&& apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential autoconf libtool tzdata libpcre3-dev zlib1g-dev libatomic-ops-dev \
 	&& echo "Asia/Shanghai" > /etc/timezone \
 	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+	&& curl https://sh.rustup.rs -sSf | bash -s -- -y \
+	&& echo 'source $HOME/.cargo/env' >> $HOME/.bashrc \
 	&& mkdir -p /usr/src \
 	&& mkdir -p /etc/nginx \
 	&& mkdir -p /etc/nginx/conf.d \
@@ -20,6 +22,8 @@ RUN set -x \
 	&& mkdir -p /var/cache/nginx/fastcgi_temp \
 	&& mkdir -p /var/cache/nginx/scgi_temp \
 	&& mkdir -p /var/cache/nginx/uwsgi_temp \
+	&& cd /usr/src \
+	&& git clone --recursive https://github.com/cloudflare/quiche \
 	&& cd /usr/src \
 	&& git clone https://github.com/cloudflare/zlib.git \
 	&& cd /usr/src/zlib \
@@ -79,6 +83,7 @@ RUN set -x \
 		--with-http_secure_link_module \
 		--with-http_degradation_module \
 		--with-http_v2_module \
+		--with-http_v3_module \
 		--with-http_v2_hpack_enc \
 		--with-stream \
 		--with-stream_realip_module \
@@ -87,7 +92,8 @@ RUN set -x \
 		--with-zlib=/usr/src/zlib \
 		--with-pcre=/usr/src/pcre-8.44 \
 		--with-pcre-jit \
-		--with-openssl=/usr/src/openssl-$OPENSSL_VERSION \
+		--with-quiche=/usr/src/quiche \
+		--with-openssl=/usr/src/quiche/deps/boringssl \
 		--with-openssl-opt='zlib enable-tls1_3 enable-ec_nistp_64_gcc_128 -Wl,-flto' \
 		--with-cc-opt='-DTCP_FASTOPEN=23 -g -O2 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
 		--with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie' \

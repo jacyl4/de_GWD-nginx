@@ -95,7 +95,7 @@ RUN set -x \
 	&& cd ~ \
 	&& rustup self uninstall -y \
 	&& rm -rf /tmp/* \
-	&& apt-get remove --purge --auto-remove -y ca-certificates wget curl unzip git build-essential cmake golang autoconf libtool tzdata libpcre3-dev zlib1g-dev libatomic-ops-dev \
+	&& apt-get remove --purge --auto-remove -y ca-certificates wget curl unzip git build-essential cmake golang autoconf libtool tzdata \
 	&& apt-get autoremove -y && apt-get clean all -y \
 	&& rm -rf /var/lib/apt/lists/*
 

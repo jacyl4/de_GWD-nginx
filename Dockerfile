@@ -12,8 +12,7 @@ RUN set -x \
 	&& curl https://sh.rustup.rs -sSf | bash -s -- -y \
 	&& export PATH="$HOME/.cargo/bin:$PATH" \
 	&& mkdir -p /tmp/src \
-	&& mkdir -p /etc/nginx \
-	&& mkdir -p /etc/nginx/conf.d \
+	&& mkdir -p "/etc/nginx/conf.d" \
 	&& mkdir -p /var/log/nginx \
 	&& mkdir -p /var/cache/nginx/client_temp \
 	&& mkdir -p /var/cache/nginx/proxy_temp \

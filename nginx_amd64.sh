@@ -89,12 +89,12 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-stream_realip_module \
   --with-stream_ssl_module \
   --with-stream_ssl_preread_module \
-  --with-zlib=/tmp/src/zlib \
-  --with-pcre=/tmp/src/pcre-8.44 \
+  --with-zlib=../zlib \
+  --with-pcre=../pcre-8.44 \
   --with-pcre-jit \
-  --with-quiche=/tmp/src/quiche \
-  --with-openssl=/tmp/src/quiche/deps/boringssl \
+  --with-quiche=../quiche \
+  --with-openssl=../quiche/deps/boringssl \
   --with-cc-opt='-DTCP_FASTOPEN=23 -g -O2 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
   --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie' \
-  --add-module=/tmp/src/ngx_brotli
+  --add-module=../ngx_brotli
 make && make install

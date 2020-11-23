@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: zip
-      run: zip -r nginx.zip ./nginx_amd64
+      run: zip -r nginx.zip ./nginx
 
     - name: Get release
       id: get_release

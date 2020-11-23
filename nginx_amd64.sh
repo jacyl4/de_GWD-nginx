@@ -6,9 +6,9 @@ GO_VERSION="1.15.5"
 
 wget -N https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz
 tar -xvf go*linux-amd64.tar.gz
-rm -rf go*linux-amd64.tar.gz
+sudo rm -rf go*linux-amd64.tar.gz
 
-mv -f go /usr/local
+sudo mv -f go /usr/local
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/work
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH

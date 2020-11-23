@@ -20,14 +20,14 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 
 
-mkdir -p /tmp/src
-mkdir -p "/etc/nginx/conf.d"
-mkdir -p /var/log/nginx
-mkdir -p /var/cache/nginx/client_temp
-mkdir -p /var/cache/nginx/proxy_temp
-mkdir -p /var/cache/nginx/fastcgi_temp
-mkdir -p /var/cache/nginx/scgi_temp
-mkdir -p /var/cache/nginx/uwsgi_temp
+sudo mkdir -p /tmp/src
+sudo mkdir -p "/etc/nginx/conf.d"
+sudo mkdir -p /var/log/nginx
+sudo mkdir -p /var/cache/nginx/client_temp
+sudo mkdir -p /var/cache/nginx/proxy_temp
+sudo mkdir -p /var/cache/nginx/fastcgi_temp
+sudo mkdir -p /var/cache/nginx/scgi_temp
+sudo mkdir -p /var/cache/nginx/uwsgi_temp
 
 cd /tmp/src
 git clone --recursive https://github.com/cloudflare/quiche

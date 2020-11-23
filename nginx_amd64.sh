@@ -20,7 +20,6 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 
 
-sudo mkdir -p /tmp/src
 sudo mkdir -p "/etc/nginx/conf.d"
 sudo mkdir -p /var/log/nginx
 sudo mkdir -p /var/cache/nginx/client_temp
@@ -29,24 +28,22 @@ sudo mkdir -p /var/cache/nginx/fastcgi_temp
 sudo mkdir -p /var/cache/nginx/scgi_temp
 sudo mkdir -p /var/cache/nginx/uwsgi_temp
 
-cd /tmp/src
 git clone --recursive https://github.com/cloudflare/quiche
-cd /tmp/src
 git clone https://github.com/cloudflare/zlib.git
-cd /tmp/src/zlib
+cd zlib
 make -f Makefile.in distclean
-cd /tmp/src
+cd ..
 git clone https://github.com/google/ngx_brotli.git
-cd /tmp/src/ngx_brotli
+cd ngx_brotli
 git submodule update --init
-cd /tmp/src
+cd ..
 wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
 tar -zxvf pcre-8.44.tar.gz
-cd /tmp/src
+
 wget https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
 tar zxvf nginx-$NGINX_VERSION.tar.gz
 sed -i 's/CFLAGS="$CFLAGS -g"/#CFLAGS="$CFLAGS -g"/' /tmp/src/nginx-$NGINX_VERSION/auto/cc/gcc
-cd /tmp/src/nginx-$NGINX_VERSION
+cd nginx-$NGINX_VERSION
 curl https://raw.githubusercontent.com/kn007/patch/master/nginx_with_quic.patch | patch -p1
 curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.patch | patch -p1
 ./configure \

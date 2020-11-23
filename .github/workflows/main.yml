@@ -21,7 +21,7 @@ jobs:
         chmod +x nginx_amd64.sh
         ./nginx_amd64.sh
         
-    - name: MV && CLEAN
+    - name: MV
       run: |
         mkdir -p ./nginx_amd64
         mv -f nginx/objs/nginx ./nginx_amd64

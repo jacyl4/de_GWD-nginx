@@ -19,7 +19,7 @@ curl https://sh.rustup.rs -sSf | bash -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
 
-
+sudo mkdir -p "./tmp"
 sudo mkdir -p "/etc/nginx/conf.d"
 sudo mkdir -p /var/log/nginx
 sudo mkdir -p /var/cache/nginx/client_temp
@@ -28,15 +28,19 @@ sudo mkdir -p /var/cache/nginx/fastcgi_temp
 sudo mkdir -p /var/cache/nginx/scgi_temp
 sudo mkdir -p /var/cache/nginx/uwsgi_temp
 
+cd ./tmp
 git clone --recursive https://github.com/cloudflare/quiche
+
 git clone https://github.com/cloudflare/zlib.git
 cd zlib
 make -f Makefile.in distclean
 cd ..
+
 git clone https://github.com/google/ngx_brotli.git
 cd ngx_brotli
 git submodule update --init
 cd ..
+
 wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
 tar -zxvf pcre-8.44.tar.gz
 

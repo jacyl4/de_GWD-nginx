@@ -2,10 +2,6 @@
 NGINX_VERSION="1.19.4"
 GO_VERSION="1.15.5"
 
-export DEBIAN_FRONTEND=noninteractive
-apt-get update
-apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev
-
 
 
 wget -N https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz

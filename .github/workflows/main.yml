@@ -3,9 +3,6 @@ name: Auto NGINX
 on:
   workflow_dispatch:
 
-env:
-    NGINX_VERSION: 1.19.4
-
 jobs:
   build:
     runs-on: buster

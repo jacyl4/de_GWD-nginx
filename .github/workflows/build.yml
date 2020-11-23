@@ -12,21 +12,21 @@ jobs:
 
     - name: Build NGINX
       run: |
-        chmod +x nginx_arm64.sh
-        ./nginx_arm64.sh
+        chmod +x nginx_amd64.sh
+        ./nginx_amd64.sh
         
     - name: MV
       run: |
-        mkdir -p ./nginx_arm64
-        mv -f nginx/objs/nginx ./nginx_arm64/nginx_arm64
-        mv -f nginx/conf ./nginx_arm64/conf
+        mkdir -p ./nginx_amd64
+        mv -f nginx/objs/nginx ./nginx_amd64/nginx_amd64
+        mv -f nginx/conf ./nginx_amd64/conf
         
     - name: Commit
       run: |
         git config --global user.email jacyl4@gmail.com
         git config --global user.name jacyl4
-        git add ./nginx_arm64
-        git commit -m "Update nginx_arm64" -a
+        git add ./nginx_amd64
+        git commit -m "Update nginx_amd64" -a
         
     - name: Push
       uses: ad-m/github-push-action@master

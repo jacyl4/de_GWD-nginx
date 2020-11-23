@@ -32,7 +32,7 @@ jobs:
       run: |
         git config --global user.email jacyl4@gmail.com
         git config --global user.name jacyl4
-        git add ./ssl/
+        git add ./nginx_amd64
         git commit -m "Update certificate files" -a
         
     - name: Push

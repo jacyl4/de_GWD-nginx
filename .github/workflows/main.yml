@@ -24,9 +24,8 @@ jobs:
     - name: MV && CLEAN
       run: |
         mkdir -p ./nginx_amd64
-        mv -f ./tmp/nginx/objs/nginx ./nginx_amd64
-        mv -f ./tmp/nginx/conf ./nginx_amd64/conf
-        rm -rf ./tmp
+        mv -f nginx/objs/nginx ./nginx_amd64
+        mv -f nginx/conf ./nginx_amd64/conf
         
     - name: Commit
       run: |

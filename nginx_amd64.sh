@@ -47,7 +47,8 @@ tar -zxvf pcre-8.44.tar.gz
 wget https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
 tar zxvf nginx-$NGINX_VERSION.tar.gz
 sed -i 's/CFLAGS="$CFLAGS -g"/#CFLAGS="$CFLAGS -g"/' /tmp/src/nginx-$NGINX_VERSION/auto/cc/gcc
-cd nginx-$NGINX_VERSION
+mv -f nginx-$NGINX_VERSION nginx
+cd nginx
 curl https://raw.githubusercontent.com/kn007/patch/master/nginx_with_quic.patch | patch -p1
 curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.patch | patch -p1
 ./configure \

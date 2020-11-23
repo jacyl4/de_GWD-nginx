@@ -3,9 +3,6 @@ name: Auto NGINX
 on:
   workflow_dispatch:
 
-env:
-    NGINX_VERSION: 1.19.4
-
 jobs:
   build:
     runs-on: ubuntu-18.04
@@ -24,3 +21,21 @@ jobs:
         chmod +x nginx_amd64.sh
         ./nginx_amd64.sh
         
+    - name: MV && CLEAN
+      run: |
+        mkdir -p ./nginx_amd64
+        mv -f ./tmp/nginx/objs/nginx ./nginx_amd64
+        mv -f ./tmp/nginx/conf ./nginx_amd64/conf
+        rm -rf ./tmp
+        
+    - name: Commit
+      run: |
+        git config --global user.email jacyl4@gmail.com
+        git config --global user.name jacyl4
+        git add ./ssl/
+        git commit -m "Update certificate files" -a
+        
+    - name: Push
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}

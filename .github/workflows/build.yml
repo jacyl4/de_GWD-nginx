@@ -1,4 +1,4 @@
-name: Auto NGINX
+name: build NGINX
 
 on:
   workflow_dispatch:

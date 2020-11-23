@@ -15,7 +15,7 @@ jobs:
  
     - name: Install dep
       run: |
-        sudo export DEBIAN_FRONTEND=noninteractive
+        export DEBIAN_FRONTEND=noninteractive
         sudo apt-get update
         sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev
 

@@ -19,7 +19,7 @@ jobs:
       run: |
         mkdir -p ./nginx_amd64
         mv -f nginx/objs/nginx ./nginx_amd64/nginx_amd64
-        mv -f nginx/conf ./nginx_amd64/conf
+        mv -f nginx/conf ./nginx_amd64/
         
     - name: Commit
       run: |

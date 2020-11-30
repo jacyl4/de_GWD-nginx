@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 LABEL maintainer "JacyL4 - jacyl4@gmail.com"
 
-ENV NGINX_VERSION 1.19.4
+ENV NGINX_VERSION 1.19.5
 
 RUN set -x \
 	&& export DEBIAN_FRONTEND=noninteractive \

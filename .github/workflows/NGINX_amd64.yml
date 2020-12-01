@@ -27,7 +27,7 @@ jobs:
       run: |
         git config --global user.email jacyl4@gmail.com
         git config --global user.name jacyl4
-        git add ./nginx_amd64
+        git add ./nginx
         git commit -m "Update nginx_amd64" -a
         
     - name: Push

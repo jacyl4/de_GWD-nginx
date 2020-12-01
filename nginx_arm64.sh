@@ -17,7 +17,7 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/work
 export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
-export PATH="$HOME/.cargo/bin:$PATH"
+
 
 sudo mkdir -p "/etc/nginx/conf.d"
 sudo mkdir -p /var/log/nginx

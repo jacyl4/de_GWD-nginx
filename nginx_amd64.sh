@@ -22,6 +22,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
 
+
 sudo mkdir -p "/etc/nginx/conf.d"
 sudo mkdir -p /var/log/nginx
 sudo mkdir -p /var/cache/nginx/client_temp

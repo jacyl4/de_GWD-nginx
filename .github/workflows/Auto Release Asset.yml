@@ -12,11 +12,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: zip
-      run: |
-        mkdir -p ./nginx
-        mv -f ./nginx_amd64/nginx_amd64 ./nginx/nginx_amd64
-        mv -f ./nginx_amd64/conf ./nginx
-        zip -r nginx.zip ./nginx
+      run: zip -r nginx.zip ./nginx
 
     - name: Get release
       id: get_release

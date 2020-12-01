@@ -17,8 +17,9 @@ jobs:
         
     - name: MV
       run: |
-        sudo rm -rf ./nginx_amd64
-        sudo mkdir -p ./nginx_amd64
+        sudo rm -rf ./nginx/conf
+        sudo rm -rf ./nginx/nginx_amd64
+        sudo mkdir -p ./nginx
         sudo cp -rf ./nginx/objs/nginx ./nginx_amd64/nginx_amd64
         sudo cp -rf ./nginx/conf ./nginx_amd64/
         

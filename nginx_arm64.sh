@@ -15,8 +15,7 @@ sudo rm -rf go*linux-arm64.tar.gz
 sudo mv -f go /usr/local
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/work
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-
+export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
 
 curl https://sh.rustup.rs -sSf | bash -s -- -y

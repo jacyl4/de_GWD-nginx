@@ -2,13 +2,21 @@ FROM debian:buster-slim
 LABEL maintainer "JacyL4 - jacyl4@gmail.com"
 
 ENV NGINX_VERSION 1.19.5
+ENV GO_VERSION 1.15.5
 
 RUN set -x \
 	&& export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update \
-	&& apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake golang autoconf libtool tzdata libpcre3-dev zlib1g-dev libatomic-ops-dev \
+	&& apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool tzdata libpcre3-dev zlib1g-dev libatomic-ops-dev \
 	&& echo "Asia/Shanghai" > /etc/timezone \
 	&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+	&& wget -N https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz \
+	&& tar -xvf go*linux-amd64.tar.gz \
+	&& rm -rf go*linux-amd64.tar.gz \
+	&& mv -f go /usr/local \
+	&& export GOROOT=/usr/local/go \
+	&& export GOPATH=$HOME/work \
+	&& export PATH="$GOPATH/bin:$GOROOT/bin:$PATH" \
 	&& curl https://sh.rustup.rs -sSf | bash -s -- -y \
 	&& export PATH="$HOME/.cargo/bin:$PATH" \
 	&& mkdir -p /tmp/src \
@@ -94,7 +102,8 @@ RUN set -x \
 	&& cd ~ \
 	&& rustup self uninstall -y \
 	&& rm -rf /tmp/* \
-	&& apt-get remove --purge --auto-remove -y ca-certificates wget curl unzip git build-essential cmake golang autoconf libtool tzdata libpcre3-dev zlib1g-dev libatomic-ops-dev \
+	&& rm -rf /usr/local/go \
+	&& apt-get remove --purge --auto-remove -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool tzdata libpcre3-dev zlib1g-dev libatomic-ops-dev \
 	&& apt-get autoremove -y && apt-get clean all -y \
 	&& rm -rf /var/lib/apt/lists/*
 

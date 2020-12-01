@@ -4,7 +4,7 @@ GO_VERSION="1.15.5"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev
+sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev rustc cargo
 
 
 
@@ -17,10 +17,7 @@ export GOROOT=/usr/local/go
 export GOPATH=$HOME/work
 export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
-
-curl https://sh.rustup.rs -sSf | bash -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
-
 
 sudo mkdir -p "/etc/nginx/conf.d"
 sudo mkdir -p /var/log/nginx

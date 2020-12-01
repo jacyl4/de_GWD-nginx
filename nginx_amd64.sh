@@ -18,7 +18,7 @@ export GOPATH=$HOME/work
 export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
 
-curl https://sh.rustup.rs -sSf | bash -s -- -y
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | bash -s -- -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
 

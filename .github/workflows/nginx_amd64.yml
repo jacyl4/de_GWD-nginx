@@ -1,4 +1,4 @@
-name: build NGINX
+name: build NGINX_amd64
 
 on:
   workflow_dispatch:
@@ -17,7 +17,8 @@ jobs:
         
     - name: MV
       run: |
-        mkdir -p ./nginx_amd64
+        sudo rm -rf ./nginx_amd64
+        sudo mkdir -p ./nginx_amd64
         sudo cp -rf ./nginx/objs/nginx ./nginx_amd64/nginx_amd64
         sudo cp -rf ./nginx/conf ./nginx_amd64/
         

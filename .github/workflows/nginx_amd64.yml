@@ -1,4 +1,4 @@
-name: build NGINX
+name: build NGINX_amd64
 
 on:
   workflow_dispatch:

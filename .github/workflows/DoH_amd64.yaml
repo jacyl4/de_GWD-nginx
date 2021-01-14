@@ -12,8 +12,8 @@ jobs:
 
     - name: Build DoH
       run: |
-        chmod +x doh_amd64.sh
-        ./doh_amd64.sh
+        chmod +x doh.sh
+        ./doh.sh
         
     - name: MV
       run: |

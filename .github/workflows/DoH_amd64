@@ -17,12 +17,12 @@ jobs:
         
     - name: MV
       run: |
-        sudo rm -rf ./doh/conf
-        sudo rm -rf ./doh/nginx_amd64
+        sudo rm -rf ./doh
         sudo mkdir -p ./doh
-        sudo cp -rf ./buildNginx/objs/nginx ./nginx/nginx_amd64
-        sudo cp -rf ./buildNginx/conf ./nginx/
-        sudo zip -r nginx.zip ./nginx
+        sudo cp -rf /usr/local/bin/doh-server ./doh/doh_amd64
+        sudo cd ./doh
+        sudo zip -r doh_amd64.zip ./doh_amd64
+        sudo cd ..
         
     - name: Commit
       run: |

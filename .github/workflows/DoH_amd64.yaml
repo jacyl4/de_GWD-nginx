@@ -13,7 +13,7 @@ jobs:
     - name: Build DoH
       run: |
         chmod +x doh.sh
-        ./doh.sh
+        sudo ./doh.sh
         
     - name: MV
       run: |

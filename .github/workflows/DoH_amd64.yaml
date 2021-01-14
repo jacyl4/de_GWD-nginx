@@ -19,9 +19,10 @@ jobs:
       run: |
         sudo rm -rf ./doh
         sudo mkdir -p ./doh
-        sudo cp -rf /usr/local/bin/doh-server ./doh/doh_amd64
+        sudo cp -rf /usr/local/bin/doh-server ./doh/doh_s_amd64
         cd ./doh
-        sudo zip -r doh_amd64.zip ./doh_amd64
+        sudo zip -r doh_s_amd64.zip ./doh_s_amd64
+        sudo rm -rf ./doh_s_amd64
         cd ..
         
     - name: Commit

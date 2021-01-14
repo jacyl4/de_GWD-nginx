@@ -26,16 +26,7 @@ sudo mv -f go /usr/local
 export GOROOT=/usr/local/go
 export GOPATH=$HOME/gopath
 export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
-rm -rf $HOME/go
-
-rm -rf $HOME/dns-over-https
-rm -rf /usr/local/bin/doh-client
-rm -rf /usr/local/bin/doh-server
-rm -rf /etc/NetworkManager/dispatcher.d
-rm -rf /usr/lib/systemd/system/doh-client.service
-rm -rf /usr/lib/systemd/system/doh-server.service
 
 git clone https://github.com/m13253/dns-over-https
-
-cd $HOME/dns-over-https*
+cd dns-over-https*
 make && make install

@@ -29,4 +29,4 @@ export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
 git clone https://github.com/m13253/dns-over-https
 cd dns-over-https*
-make && make install
+sudo make && sudo make install

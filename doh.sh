@@ -1,5 +1,5 @@
 #!/bin/bash
-GO_VERSION="1.15.6"
+GO_VERSION="1.16"
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get update

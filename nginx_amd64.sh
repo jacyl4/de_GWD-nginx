@@ -1,5 +1,5 @@
 #!/bin/bash
-NGINX_VERSION="1.19.7"
+NGINX_VERSION="1.19.6"
 GO_VERSION="1.16"
 
 export DEBIAN_FRONTEND=noninteractive
@@ -51,6 +51,7 @@ tar zxvf nginx-$NGINX_VERSION.tar.gz
 mv -f nginx-$NGINX_VERSION buildNginx
 sed -i 's/CFLAGS="$CFLAGS -g"/#CFLAGS="$CFLAGS -g"/' buildNginx/auto/cc/gcc
 cd buildNginx
+curl https://raw.githubusercontent.com/kn007/patch/master/nginx_with_quic.patch | patch -p1
 curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.patch | patch -p1
 ./configure \
   --prefix=/etc/nginx \

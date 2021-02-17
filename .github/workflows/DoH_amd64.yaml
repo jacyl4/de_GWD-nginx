@@ -19,7 +19,8 @@ jobs:
       run: |
         sudo mkdir -p ./doh
         sudo rm -rf ./doh/doh_s_amd64.zip
-        sudo zip -r doh_s_amd64.zip /usr/local/bin/doh-server
+        sudo cp -f /usr/local/bin/doh-server ./doh-server
+        sudo zip -r doh_s_amd64.zip ./doh-server
         sudo mv -f doh_s_amd64.zip ./doh
         
     - name: Commit

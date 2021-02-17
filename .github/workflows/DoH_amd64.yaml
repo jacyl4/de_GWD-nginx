@@ -22,7 +22,7 @@ jobs:
         sudo cp -rf /usr/local/bin/doh-server ./doh/doh-server
         cd ./doh
         sudo zip -r doh_s_amd64.zip /usr/local/bin/doh-server
-        sudo mv -f doh_s_amd64.zip ./doh/
+        sudo mv -f doh_s_amd64.zip ./doh
         
     - name: Commit
       run: |

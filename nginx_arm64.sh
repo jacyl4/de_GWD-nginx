@@ -1,6 +1,6 @@
 #!/bin/bash
-NGINX_VERSION="1.19.5"
-GO_VERSION="1.15.5"
+NGINX_VERSION="1.19.7"
+GO_VERSION="1.16"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
@@ -19,15 +19,18 @@ export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
 
 
-sudo mkdir -p "/etc/nginx/conf.d"
-sudo mkdir -p /var/log/nginx
-sudo mkdir -p /var/cache/nginx/client_temp
-sudo mkdir -p /var/cache/nginx/proxy_temp
-sudo mkdir -p /var/cache/nginx/fastcgi_temp
-sudo mkdir -p /var/cache/nginx/scgi_temp
-sudo mkdir -p /var/cache/nginx/uwsgi_temp
+git clone --dep 1 https://boringssl.googlesource.com/boringssl
+cd boringssl && mkdir build && cd build && cmake .. && make && cd ..
+mkdir -p .openssl/lib && cd .openssl && cp -R ../include . && cd ..
+sudo cp build/crypto/libcrypto.a build/ssl/libssl.a .openssl/lib
+cd ..
 
-git clone --recursive https://github.com/cloudflare/quiche
+wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
+tar -zxvf pcre-8.44.tar.gz
+cd pcre-8.44
+./configure
+make && make install
+cd ..
 
 git clone https://github.com/cloudflare/zlib.git
 cd zlib
@@ -39,15 +42,20 @@ cd ngx_brotli
 git submodule update --init
 cd ..
 
-wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
-tar -zxvf pcre-8.44.tar.gz
+sudo mkdir -p "/etc/nginx/conf.d"
+sudo mkdir -p /var/log/nginx
+sudo mkdir -p /var/cache/nginx/client_temp
+sudo mkdir -p /var/cache/nginx/proxy_temp
+sudo mkdir -p /var/cache/nginx/fastcgi_temp
+sudo mkdir -p /var/cache/nginx/scgi_temp
+sudo mkdir -p /var/cache/nginx/uwsgi_temp
 
 wget https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
 tar zxvf nginx-$NGINX_VERSION.tar.gz
 mv -f nginx-$NGINX_VERSION buildNginx
 sed -i 's/CFLAGS="$CFLAGS -g"/#CFLAGS="$CFLAGS -g"/' buildNginx/auto/cc/gcc
 cd buildNginx
-curl https://raw.githubusercontent.com/kn007/patch/master/nginx_with_quic.patch | patch -p1
+curl https://raw.githubusercontent.com/kn007/patch/master/nginx.patch | patch -p1
 curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.patch | patch -p1
 ./configure \
   --prefix=/etc/nginx \
@@ -86,7 +94,6 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-http_secure_link_module \
   --with-http_degradation_module \
   --with-http_v2_module \
-  --with-http_v3_module \
   --with-http_v2_hpack_enc \
   --with-stream \
   --with-stream_realip_module \
@@ -95,9 +102,11 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-zlib=../zlib \
   --with-pcre=../pcre-8.44 \
   --with-pcre-jit \
-  --with-quiche=../quiche \
-  --with-openssl=../quiche/deps/boringssl \
+  --with-openssl=../boringssl \
   --with-cc-opt='-DTCP_FASTOPEN=23 -g -O2 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
   --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie' \
   --add-module=../ngx_brotli
+
+sudo touch ../boringssl/.openssl/include/openssl/ssl.h
 make -j $(nproc --all)
+

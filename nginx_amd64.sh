@@ -23,7 +23,6 @@ git clone --dep 1 https://boringssl.googlesource.com/boringssl
 cd boringssl && mkdir build && cd build && cmake .. && make && cd ..
 mkdir -p .openssl/lib && cd .openssl && cp -R ../include . && cd ..
 sudo cp build/crypto/libcrypto.a build/ssl/libssl.a .openssl/lib
-touch boringssl/.openssl/include/openssl/ssl.h
 cd ..
 
 wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
@@ -107,4 +106,6 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-cc-opt='-DTCP_FASTOPEN=23 -g -O2 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
   --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie' \
   --add-module=../ngx_brotli
+
+sudo touch ../boringssl/.openssl/include/openssl/ssl.h
 make -j $(nproc --all)

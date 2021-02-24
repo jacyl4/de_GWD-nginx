@@ -1,7 +1,7 @@
 FROM debian:buster-slim
 LABEL maintainer "JacyL4 - jacyl4@gmail.com"
 
-ENV NGINX_VERSION 1.19.7
+ENV NGINX_VERSION 1.19.6
 ENV GO_VERSION 1.16
 
 RUN set -x \

@@ -4,13 +4,18 @@ GO_VERSION="1.16"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev libjemalloc-dev
+sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev
 
 
-
-wget -N https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz
-tar -xvf go*linux-amd64.tar.gz
-sudo rm -rf go*linux-amd64.tar.gz
+if [[ $(dpkg --print-architecture) = "amd64" ]]; then
+  wget -N https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz
+  tar -xvf go*linux-amd64.tar.gz
+  rm -rf go*linux-amd64.tar.gz
+elif [[ $(dpkg --print-architecture) = "arm64" ]]; then
+  wget -N https://dl.google.com/go/go$GO_VERSION.linux-arm64.tar.gz
+  tar -xvf go*linux-arm64.tar.gz
+  rm -rf go*linux-arm64.tar.gz
+fi
 
 sudo mv -f go /usr/local
 export GOROOT=/usr/local/go
@@ -18,6 +23,14 @@ export GOPATH=$HOME/work
 export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
 
 
+wget https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2
+tar jxf jemalloc-5.2.1.tar.bz2
+cd jemalloc-5.2.1
+./configure
+make && make install
+echo '/usr/local/lib' >/etc/ld.so.conf.d/local.conf
+ldconfig
+cd ..
 
 git clone --dep 1 https://boringssl.googlesource.com/boringssl
 cd boringssl && mkdir build && cd build && cmake .. && make && cd ..
@@ -103,7 +116,7 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-pcre=../pcre-8.44 \
   --with-pcre-jit \
   --with-openssl=../boringssl \
-  --with-cc-opt='-DTCP_FASTOPEN=23 -g -O2 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
+  --with-cc-opt='-DTCP_FASTOPEN=23 -g -O3 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
   --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie -ljemalloc' \
   --add-module=../ngx_brotli
 

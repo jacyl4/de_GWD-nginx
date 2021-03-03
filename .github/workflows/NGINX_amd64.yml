@@ -12,8 +12,8 @@ jobs:
 
     - name: Build NGINX
       run: |
-        chmod +x nginx_amd64.sh
-        ./nginx_amd64.sh
+        chmod +x nginx.sh
+        ./nginx.sh
         
     - name: MV
       run: |

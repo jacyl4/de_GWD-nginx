@@ -4,7 +4,7 @@ GO_VERSION="1.16"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev
+sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev libjemalloc-dev
 
 
 
@@ -104,7 +104,7 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-pcre-jit \
   --with-openssl=../boringssl \
   --with-cc-opt='-DTCP_FASTOPEN=23 -g -O2 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
-  --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie' \
+  --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie -ljemalloc' \
   --add-module=../ngx_brotli
 
 sudo touch ../boringssl/.openssl/include/openssl/ssl.h

@@ -8,15 +8,20 @@ sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certifi
 
 
 if [[ $(dpkg --print-architecture) = "amd64" ]]; then
-  wget --no-check-certificate --show-progress -cq https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz
-  sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go*linux-amd64.tar.gz
-  sudo rm -rf go*linux-amd64.tar.gz
+  wget -N https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz
+  tar -xvf go*linux-amd64.tar.gz
+  rm -rf go*linux-amd64.tar.gz
 elif [[ $(dpkg --print-architecture) = "arm64" ]]; then
-  wget --no-check-certificate --show-progress -cq https://dl.google.com/go/go$GO_VERSION.linux-arm64.tar.gz
-  sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go*linux-arm64.tar.gz
-  sudo rm -rf go*linux-arm64.tar.gz
+  wget -N https://dl.google.com/go/go$GO_VERSION.linux-arm64.tar.gz
+  tar -xvf go*linux-arm64.tar.gz
+  rm -rf go*linux-arm64.tar.gz
 fi
-export PATH=$PATH:/usr/local/go/bin
+
+sudo mv -f go /usr/local
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/work
+export PATH="$GOPATH/bin:$GOROOT/bin:$PATH"
+
 
 
 git clone --dep 1 https://boringssl.googlesource.com/boringssl
@@ -103,8 +108,8 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-pcre=../pcre-8.44 \
   --with-pcre-jit \
   --with-openssl=../boringssl \
-  --with-cc-opt='-g -O3 -fPIE -flto -Wdate-time -fstack-protector-strong -Wformat -Werror=format-security -fno-strict-aliasing -Wp,-D_FORTIFY_SOURCE=2 -Wall -ffast-math -march=native -funsafe-math-optimizations -fuse-ld=gold -fexceptions --param=ssp-buffer-size=4 -DTCP_FASTOPEN=23 -mtune=generic -I ../boringssl/.openssl/include/' \
-  --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -fPIE -pie -lrt -ljemalloc -L ../boringssl/.openssl/lib/' \
+  --with-cc-opt='-DTCP_FASTOPEN=23 -g -O3 -pipe -Wall -fexceptions -fstack-protector-strong --param=ssp-buffer-size=4 -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fPIC' \
+  --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie -ljemalloc' \
   --add-module=../ngx_brotli
 
 sudo touch ../boringssl/.openssl/include/openssl/ssl.h

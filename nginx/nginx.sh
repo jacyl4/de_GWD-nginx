@@ -101,8 +101,8 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-pcre=../pcre-8.44 \
   --with-pcre-jit \
   --with-openssl=../boringssl \
-  --with-cc-opt='-pipe -g -O3 -fPIE -Wdate-time -fstack-protector-strong -Wall -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -flto -fuse-ld=gold --param=ssp-buffer-size=4 -DTCP_FASTOPEN=23 -I ../boringssl/.openssl/include/' \
-  --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -fPIE -lrt -ljemalloc -L ../boringssl/.openssl/lib/' \
+  --with-cc-opt='-g -O3 -fPIE -Wdate-time -fstack-protector-strong -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -flto -fuse-ld=gold --param=ssp-buffer-size=4 -DTCP_FASTOPEN=23 -I ../boringssl/.openssl/include/' \
+  --with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -ljemalloc -L ../boringssl/.openssl/lib/' \
   --add-module=../ngx_brotli
 
 sudo touch ../boringssl/.openssl/include/openssl/ssl.h

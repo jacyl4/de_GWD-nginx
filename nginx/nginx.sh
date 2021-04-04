@@ -1,6 +1,6 @@
 #!/bin/bash
-NGINX_VERSION="1.19.8"
-GO_VERSION="1.16.2"
+NGINX_VERSION="1.19.9"
+GO_VERSION="1.16.3"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update

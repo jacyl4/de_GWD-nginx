@@ -1,5 +1,5 @@
 #!/bin/bash
-NGINX_VERSION="1.19.9"
+NGINX_VERSION="1.19.10"
 GO_VERSION="1.16.3"
 
 export DEBIAN_FRONTEND=noninteractive

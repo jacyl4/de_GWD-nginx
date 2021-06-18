@@ -1,10 +1,11 @@
 #!/bin/bash
 NGINX_VERSION="1.21.0"
-GO_VERSION="1.16.4"
+GO_VERSION="1.16.5"
+PCRE_VERSION="8.45"
 
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev libjemalloc-dev
+sudo apt-get install --no-install-recommends --no-install-suggests -y ca-certificates wget curl unzip git build-essential cmake autoconf libtool libpcre3-dev zlib1g-dev libatomic-ops-dev
 
 if [[ $(dpkg --print-architecture) = "amd64" ]]; then
   wget --no-check-certificate --show-progress -cq https://dl.google.com/go/go$GO_VERSION.linux-amd64.tar.gz
@@ -17,17 +18,17 @@ elif [[ $(dpkg --print-architecture) = "arm64" ]]; then
 fi
 export PATH=$PATH:/usr/local/go/bin
 
-git clone --dep 1 https://boringssl.googlesource.com/boringssl
-cd boringssl && mkdir build && cd build && cmake .. && make && cd ..
-mkdir -p .openssl/lib && cd .openssl && cp -R ../include . && cd ..
-sudo cp build/crypto/libcrypto.a build/ssl/libssl.a .openssl/lib
+wget https://ftp.pcre.org/pub/pcre/pcre-$PCRE_VERSION.tar.gz
+tar -zxvf pcre-$PCRE_VERSION.tar.gz
+cd pcre-$PCRE_VERSION
+./configure
+make -j $(nproc --all) && make install
 cd ..
 
-wget https://ftp.pcre.org/pub/pcre/pcre-8.44.tar.gz
-tar -zxvf pcre-8.44.tar.gz
-cd pcre-8.44
-./configure
-make && make install
+git clone --dep 1 https://boringssl.googlesource.com/boringssl
+cd boringssl && mkdir build && cd build && cmake .. && make -j $(nproc --all) && cd ..
+mkdir -p .openssl/lib && cd .openssl && cp -R ../include . && cd ..
+sudo cp build/crypto/libcrypto.a build/ssl/libssl.a .openssl/lib
 cd ..
 
 git clone https://github.com/cloudflare/zlib.git
@@ -98,12 +99,14 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-stream_ssl_module \
   --with-stream_ssl_preread_module \
   --with-zlib=../zlib \
-  --with-pcre=../pcre-8.44 \
+  --with-pcre=../pcre-$PCRE_VERSION \
   --with-pcre-jit \
   --with-openssl=../boringssl \
-  --with-cc-opt='-g -O3 -fPIE -Wdate-time -fstack-protector-strong -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -flto -fuse-ld=gold --param=ssp-buffer-size=4 -DTCP_FASTOPEN=23 -I ../boringssl/.openssl/include/' \
-  --with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -ljemalloc -L ../boringssl/.openssl/lib/' \
+  --with-cc-opt='-g -O2 -fPIE -Wdate-time -fstack-protector-strong -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -flto -fuse-ld=gold --param=ssp-buffer-size=4 -DTCP_FASTOPEN=23 -I ../boringssl/.openssl/include/' \
+  --with-ld-opt='-Wl,-Bsymbolic-functions -fPIE -pie -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -L ../boringssl/.openssl/lib/' \
   --add-module=../ngx_brotli
 
 sudo touch ../boringssl/.openssl/include/openssl/ssl.h
 make -j $(nproc --all)
+
+cp objs/nginx ../

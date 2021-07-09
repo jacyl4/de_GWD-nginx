@@ -26,7 +26,8 @@ make -j $(nproc --all) && make install
 cd ..
 
 git clone --dep 1 https://boringssl.googlesource.com/boringssl
-cd boringssl && mkdir build && cd build && cmake .. && make -j $(nproc --all) && cd ..
+cd boringssl
+mkdir -p build && cd build && cmake .. && make -j $(nproc --all) && cd ..
 mkdir -p .openssl/lib && cd .openssl && cp -R ../include . && cd ..
 sudo cp build/crypto/libcrypto.a build/ssl/libssl.a .openssl/lib
 cd ..
@@ -102,11 +103,12 @@ curl https://raw.githubusercontent.com/kn007/patch/master/Enable_BoringSSL_OCSP.
   --with-pcre=../pcre-$PCRE_VERSION \
   --with-pcre-jit \
   --with-openssl=../boringssl \
-  --with-cc-opt='-g -O2 -Wall -Wp,-D_FORTIFY_SOURCE=2 -Wdate-time -fstack-protector-strong -Wformat -Werror=format-security -fexceptions -fuse-ld=gold --param=ssp-buffer-size=4 -DTCP_FASTOPEN=23 -mtune=generic -fPIE -I ../boringssl/.openssl/include/' \
-  --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -fPIE -L ../boringssl/.openssl/lib/' \
+  --with-cc-opt='-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions -fstack-protector-strong -Wdate-time -Wformat -Werror=format-security -fuse-ld=gold --param=ssp-buffer-size=4 -grecord-gcc-switches -DTCP_FASTOPEN=23 -mtune=generic -fPIC -I ../boringssl/.openssl/include/' \
+  --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,-z,now -Wl,--as-needed -pie -L ../boringssl/.openssl/lib/' \
   --add-module=../ngx_brotli
 
 sudo touch ../boringssl/.openssl/include/openssl/ssl.h
+
 make -j $(nproc --all)
 
 cp objs/nginx ../
